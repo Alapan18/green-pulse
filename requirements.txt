@@ -3,26 +3,19 @@ wheel
 gunicorn
 
 # Web Framework
-Flask==3.0.0
-Werkzeug==3.0.1
+Flask
 
 # Data Processing
-numpy==1.24.3
-pandas==2.0.3
+numpy
+pandas
 
 # Machine Learning - TensorFlow/Keras
-tensorflow==2.15.0
-keras==2.15.0
+tensorflow
 
 # Machine Learning - PyTorch
-torch==2.1.0
-torchvision==0.16.0
-torchaudio==2.1.0
+torch
+torchvision
+torchaudio
 
 # Machine Learning - Scikit-learn
-scikit-learn==1.3.2
-joblib==1.3.2
-
-# Additional utilities (if needed)
-python-dateutil==2.8.2
-pytz==2023.3
+scikit-learn
