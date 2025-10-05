@@ -29,10 +29,6 @@
 - 📈 **Maximize Grid Export** earnings while minimizing import costs
 - 🌍 **Track CO₂ Reduction** and environmental impact metrics
 
-<div align="center">
-  <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="200" alt="Energy Animation"/>
-</div>
-
 ---
 
 ## 🎯 Key Features
@@ -87,7 +83,7 @@
 ### Energy Flow Diagram
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#10b981','primaryTextColor':'#fff','primaryBorderColor':'#059669','lineColor':'#3b82f6','secondaryColor':'#fbbf24','tertiaryColor':'#a855f7'}}}%%
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#10b981','primaryTextColor':'#fff','primaryBorderColor':'#059669','lineColor':'#3b82f6','secondaryColor':'#fbbf24','tertiaryColor':'#a955f7'}}}%%
 
 flowchart TB
     subgraph "⚡ ENERGY SOURCES"
@@ -216,8 +212,8 @@ Before you begin, ensure you have the following installed:
 
 ```bash
 # Using Git
-git clone https://github.com/yourusername/greenpulse-v2.git
-cd greenpulse-v2
+git clone https://github.com/Alapan18/green-pulse
+cd green-pulse
 
 # Or download and extract the ZIP file
 ```
@@ -628,19 +624,19 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 ## 👨‍💻 Author
 
-**Developed with ⚡ by Your Team**
+**Developed with Green-pulse Team**
 
 - 🌐 Website: [your-website.com](https://your-website.com)
-- 📧 Email: your-email@example.com
-- 💼 LinkedIn: [your-profile](https://linkedin.com/in/your-profile)
-- 🐙 GitHub: [@yourusername](https://github.com/yourusername)
+- 📧 Email: alapan.pradhan.1@gmail.com, roysamir929@gmail.com, ddass12340987@gmail.com
+- 💼 LinkedIn: [Alapan Pradhan](www.linkedin.com/in/mr-alapan-pradhan),  [Samir Roy](https://www.linkedin.com/in/samirroydev/),  [Diganta Das](http://www.linkedin.com/in/diganta-das-955730315/)
+- 🐙 GitHub: [@Alapan18](https://github.com/Alapan18/),  [@SamirRoy929](https://github.com/SamirRoy929)
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **TensorFlow Team** for the powerful LSTM framework
-- **PyTorch Community** for flexible neural network tools
+- **TensorFlow** for the powerful LSTM framework
+- **PyTorch** for flexible neural network tools
 - **Scikit-learn** for classical ML algorithms
 - **Flask** for the lightweight web framework
 - **Open-source Community** for continuous inspiration
@@ -651,10 +647,8 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 Need help? Here's how to get support:
 
-- 📖 Check the [Documentation](#-documentation) section
-- 🐛 [Open an Issue](https://github.com/yourusername/greenpulse-v2/issues)
-- 💬 Join our [Discord Community](https://discord.gg/your-invite)
-- 📧 Email us at support@greenpulse.com
+- 🐛 [Open an Issue](https://github.com/Alapan18/green-pulse/issues)
+- 📧 Email: alapan.pradhan.1@gmail.com, roysamir929@gmail.com, ddass12340987@gmail.com
 
 ---
 
