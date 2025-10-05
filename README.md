@@ -653,7 +653,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
       <div style="background-color:#f5576c; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
         <a href="https://www.linkedin.com/in/samirroydev/">
           <img src="https://media.licdn.com/dms/image/v2/D4D03AQHwUpZ1zOJ0-w/profile-displayphoto-crop_800_800/B4DZhkCKaXGQAM-/0/1754024947061?e=1762387200&v=beta&t=lzKhEu3k948xlVIqK8QuFvNlkvMBYiw_q2vtEalkqeA" 
-               alt="Samir Roy" width="120" height="120" 
+               alt="Samir Roy" width="120" height="120" radius="50%"
                style="border-radius:50%; border:4px solid #ffe600; box-shadow:0 5px 10px rgba(255,230,0,0.4);"/>
         </a>
         <br/><br/>
