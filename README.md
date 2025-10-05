@@ -627,43 +627,39 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 **Developers of the Green-pulse Team**
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center" width="33%">
-        <a href="https://www.linkedin.com/in/mr-alapan-pradhan" target="_blank">
-          <img src="https://media.licdn.com/dms/image/v2/D5603AQGZZmWm7pqHPg/profile-displayphoto-crop_800_800/B56ZkpDF8eG0AI-/0/1757330302731?e=1762387200&v=beta&t=xB456Mtu1X-jG0_k_Wk8uAv0absfTRJzI2bwMJKnQ3I" alt="Alapan Pradhan" width="150" height="150" style="border-radius: 50%; object-fit: cover; border: 6px solid #003cffff;"/>
-        </a>
-        <br />
-        <sub><b>Alapan Pradhan</b></sub>
-        <br />
-        <a href="https://github.com/Alapan18" target="_blank">
-          <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
-        </a>
-      </td>
-      <td align="center" width="33%">
-        <a href="https://www.linkedin.com/in/samirroydev/" target="_blank">
-          <img src="https://media.licdn.com/dms/image/v2/D4D03AQHwUpZ1zOJ0-w/profile-displayphoto-crop_800_800/B4DZhkCKaXGQAM-/0/1754024947061?e=1762387200&v=beta&t=lzKhEu3k948xlVIqK8QuFvNlkvMBYiw_q2vtEalkqeA" alt="Samir Roy" width="150" height="150" style="border-radius: 50%; object-fit: cover; border: 6px solid #ffe600ff;"/>
-        </a>
-        <br />
-        <sub><b>Samir Roy</b></sub>
-        <br />
-        <a href="https://github.com/SamirRoy929" target="_blank">
-          <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
-        </a>
-      </td>
-      <td align="center" width="33%">
-        <a href="http://www.linkedin.com/in/diganta-das-955730315/" target="_blank">
-          <img src="https://media.licdn.com/dms/image/v2/D4E03AQFs0-WkidMIXg/profile-displayphoto-crop_800_800/B4EZe7.pZ5G4AQ-/0/1751205454018?e=1762387200&v=beta&t=n3Wv44QqM-9NKQP6MG3VjE7ufYSmdPL_5BdIV8BBCXI" alt="Diganta Das" width="150" height="150" style="border-radius: 50%; object-fit: cover; border: 6px solid #ff0000ff;"/>
-        </a>
-        <br />
-        <sub><b>Diganta Das</b></sub>
-        <br />
-        <a href="https://github.com/YOUR_GITHUB_USERNAME_HERE" target="_blank">
-          <img src="https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
-        </a>
-      </td>
-    </tr>
-  </table>
+  <p align="center">
+    <a href="https://www.linkedin.com/in/mr-alapan-pradhan" target="_blank">
+      <img src="https://media.licdn.com/dms/image/v2/D5603AQGZZmWm7pqHPg/profile-displayphoto-crop_800_800/B56ZkpDF8eG0AI-/0/1757330302731?e=1762387200&v=beta&t=xB456Mtu1X-jG0_k_Wk8uAv0absfTRJzI2bwMJKnQ3I" alt="Alapan Pradhan" width="150" height="150" style="border-radius:50%; border: 5px solid #003cffff; margin: 0 30px;"/>
+    </a>
+    <a href="https://www.linkedin.com/in/samirroydev/" target="_blank">
+      <img src="https://media.licdn.com/dms/image/v2/D4D03AQHwUpZ1zOJ0-w/profile-displayphoto-crop_800_800/B4DZhkCKaXGQAM-/0/1754024947061?e=1762387200&v=beta&t=lzKhEu3k948xlVIqK8QuFvNlkvMBYiw_q2vtEalkqeA" alt="Samir Roy" width="150" height="150" style="border-radius:50%; border: 5px solid #ffe600ff; margin: 0 30px;"/>
+    </a>
+    <a href="http://www.linkedin.com/in/diganta-das-955730315/" target="_blank">
+      <img src="https://media.licdn.com/dms/image/v2/D4E03AQFs0-WkidMIXg/profile-displayphoto-crop_800_800/B4EZe7.pZ5G4AQ-/0/1751205454018?e=1762387200&v=beta&t=n3Wv44QqM-9NKQP6MG3VjE7ufYSmdPL_5BdIV8BBCXI" alt="Diganta Das" width="150" height="150" style="border-radius:50%; border: 5px solid #ff0000ff; margin: 0 30px;"/>
+    </a>
+  </p>
+  
+  <p align="center">
+    <strong>Alapan Pradhan</strong>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <strong>Samir Roy</strong>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <strong>Diganta Das</strong>
+  </p>
+  
+  <p align="center">
+    <a href="https://github.com/Alapan18" target="_blank">
+      <img src="https://img.shields.io/badge/GitHub-Alapan18-181717?style=for-the-badge&logo=github&logoColor=white" alt="Alapan GitHub"/>
+    </a>
+    &nbsp;&nbsp;
+    <a href="https://github.com/SamirRoy929" target="_blank">
+      <img src="https://img.shields.io/badge/GitHub-SamirRoy929-181717?style=for-the-badge&logo=github&logoColor=white" alt="Samir GitHub"/>
+    </a>
+    &nbsp;&nbsp;
+    <a href="https://github.com/YOUR_GITHUB_USERNAME_HERE" target="_blank">
+      <img src="https://img.shields.io/badge/GitHub-DigantaDas-181717?style=for-the-badge&logo=github&logoColor=white" alt="Diganta GitHub"/>
+    </a>
+  </p>
 </div>
 
 ---
