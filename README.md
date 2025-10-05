@@ -83,7 +83,7 @@
 ### Energy Flow Diagram
 
 ```mermaid
-%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#10b981','primaryTextColor':'#fff','primaryBorderColor':'#059669','lineColor':'#3b82f6','secondaryColor':'#fbbf24','tertiaryColor':'#a955f7'}}}%%
+%%{init: {'theme':'base', 'themeVariables': { 'primaryColor':'#10b981','primaryTextColor':'#fff','primaryBorderColor':'#059669','lineColor':'#3b82f6','secondaryColor':'#fbbf24','tertiaryColor':'#000000'}}}%%
 
 flowchart TB
     subgraph "⚡ ENERGY SOURCES"
