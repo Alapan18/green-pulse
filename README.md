@@ -627,7 +627,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 **Developers of the Green-pulse Team**
 
 <br/>
-
+<html>
 <table align="center" border="0" cellpadding="0" cellspacing="0">
   <tr>
     <td align="center" valign="top" width="30%" style="padding: 20px;">
@@ -683,7 +683,7 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
     </td>
   </tr>
 </table>
-
+</html>
 <br/>
 
 ---
