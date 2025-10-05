@@ -25,7 +25,14 @@ class EnergyManagementSystem {
             historical: { solar: [], wind: [], grid: [], battery: [] },
             currentTab: 'realtime',
             co2ReducedTotal: parseFloat(localStorage.getItem('co2ReducedTotal')) || 0,
-            costSavingsTotal: parseFloat(localStorage.getItem('costSavingsTotal')) || 0
+            costSavingsTotal: parseFloat(localStorage.getItem('costSavingsTotal')) || 0,
+            // <new section grid import line>
+            gridImportAmount: 0,
+            gridImportCostTotal: parseFloat(localStorage.getItem('gridImportCostTotal')) || 0,
+            // </new section grid import line>
+            // Cumulative export metrics
+            gridExportTotal: parseFloat(localStorage.getItem('gridExportTotal')) || 0,
+            gridExportIncome: parseFloat(localStorage.getItem('gridExportIncome')) || 0
         };
         this.updateInterval = null;
     }
@@ -46,11 +53,10 @@ class EnergyManagementSystem {
                 };
             }
             
-            // Use Site Load slider value (this.state.load) which is controlled by user
-            // Don't override with tickData.consumption - they are independent
-            // this.state.load is already set by loadSlider
+            // Use Site Load value (this.state.load) which is controlled by consumption slider
+            // this.state.load is set by the consumption slider in the event listener
             
-            // Calculate energy balance
+            // Calculate energy balance (WITHOUT grid import from slider)
             const generation = this.state.solar + this.state.wind;
             const balance = generation - this.state.load;
             
@@ -58,8 +64,22 @@ class EnergyManagementSystem {
             // Since we're calculating per tick (hourly), we use the rate directly
             const batteryCapacityPerPercent = 500; // kWh per 1%
             
+            // Grid import from slider is ONLY for battery charging (independent of energy balance)
+            const gridImportForBattery = this.state.gridImportAmount || 0;
+            
             console.log(`[ENERGY FLOW] Generation: ${generation.toFixed(2)} kW, Load: ${this.state.load.toFixed(2)} kW, Balance: ${balance.toFixed(2)} kW`);
+            console.log(`[GRID IMPORT FOR BATTERY] Amount: ${gridImportForBattery.toFixed(2)} kW (for battery charging only)`);
             console.log(`[BATTERY] Level: ${this.state.battery.toFixed(1)}%, Priority: ${this.state.batteryPriority}%, Reserve: ${this.state.reserve}%`);
+            
+            // STEP 1: Charge battery from grid import (independent of energy balance)
+            if (gridImportForBattery > 0 && this.state.battery < 100) {
+                const batteryChargeFromGridPercent = gridImportForBattery / batteryCapacityPerPercent;
+                const oldBattery = this.state.battery;
+                this.state.battery = Math.min(100, this.state.battery + batteryChargeFromGridPercent);
+                console.log(`[GRID→BATTERY] Charged battery with ${gridImportForBattery.toFixed(2)} kW from grid, ${oldBattery.toFixed(1)}% → ${this.state.battery.toFixed(1)}%`);
+            }
+            
+            // STEP 2: Handle main energy balance (existing logic continues unchanged)
             
             if (balance < 0) {
                 // DEFICIT CASE: Not enough generation to meet demand
@@ -304,11 +324,13 @@ class EnergyManagementSystem {
 
     updateKPIs() {
         // Solar
-        document.getElementById('solarVal').textContent = this.state.solar.toFixed(2);
+        const solar_var= (Math.random() * 20) - 10
+        document.getElementById('solarVal').textContent = (Math.abs(this.state.solar+solar_var)).toFixed(2);
         document.getElementById('solarBar').style.width = `${(this.state.solar / 340) * 100}%`;
         
         // Wind
-        document.getElementById('windVal').textContent = this.state.wind.toFixed(2);
+        const wind_var = (Math.random() * 10) - 8
+        document.getElementById('windVal').textContent = (Math.abs(this.state.wind+wind_var)).toFixed(2);
         document.getElementById('windBar').style.width = `${(this.state.wind / 160) * 100}%`;
         
         // AI Recommendations - Solar, Wind, Demand predictions
@@ -338,6 +360,16 @@ class EnergyManagementSystem {
         
         // Update Export Earnings
         this.updateExportEarnings();
+        
+        // Update Cumulative Export Metrics
+        this.updateCumulativeExportMetrics();
+        
+        // <new section grid import line>
+        // Update Grid Import Display (always update display)
+        this.updateGridImportDisplay();
+        // Update Grid Import Costs (only during tick intervals)
+        this.updateGridImportCosts();
+        // </new section grid import line>
     }
 
     updatePerformanceMetrics() {
@@ -404,7 +436,7 @@ class EnergyManagementSystem {
     updateExportEarnings() {
         try {
             // Get current settings
-            const gridRate = parseFloat(document.getElementById('gridRate')?.value || 3.0);
+            const gridRate = parseFloat(document.getElementById('gridRate')?.value || 6.0);
             const sunHours = parseFloat(document.getElementById('sunHoursSlider')?.value || 6);
             
             // Use actual grid export from state (only exports when battery = 100%)
@@ -455,6 +487,119 @@ class EnergyManagementSystem {
             console.error('Error updating export earnings:', err);
         }
     }
+
+    updateCumulativeExportMetrics() {
+        try {
+            // Get current grid rate
+            const gridRate = parseFloat(document.getElementById('gridRate')?.value || 6.0);
+            
+            // Current export power (this is the "Exporting Now" value)
+            const currentExportingNow = this.state.gridExport || 0;
+            
+            // Only accumulate when actually exporting (currentExportingNow > 0)
+            if (currentExportingNow > 0) {
+                // 1. Accumulate Grid Export Total (simple sum of export now values in kW)
+                this.state.gridExportTotal += currentExportingNow;
+                
+                // 2. Accumulate Grid Export Income (Exporting Now × Grid Rate)
+                const incomeThisTick = currentExportingNow * gridRate;
+                this.state.gridExportIncome += incomeThisTick;
+                
+                // Debug logging
+                console.log(`Tick: Export Now ${currentExportingNow.toFixed(2)} kW, Total +${currentExportingNow.toFixed(2)} kW, Income +₹${incomeThisTick.toFixed(2)}`);
+            }
+            
+            // 3. Calculate total net income (export income - import cost)
+            const totalNetIncome = this.state.gridExportIncome - this.state.gridImportCostTotal;
+            
+            // Update display elements
+            const gridExportTotalEl = document.getElementById('gridExportTotal');
+            const gridExportIncomeEl = document.getElementById('gridExportIncome');
+            const totalNetIncomeEl = document.getElementById('totalNetIncome');
+            
+            if (gridExportTotalEl) {
+                gridExportTotalEl.textContent = `${this.state.gridExportTotal.toFixed(2)} kW`;
+            }
+            if (gridExportIncomeEl) {
+                gridExportIncomeEl.textContent = `₹${this.state.gridExportIncome.toFixed(2)}`;
+            }
+            if (totalNetIncomeEl) {
+                totalNetIncomeEl.textContent = `₹${totalNetIncome.toFixed(2)}`;
+                // Color code based on positive/negative
+                if (totalNetIncome >= 0) {
+                    totalNetIncomeEl.style.color = 'var(--success)';
+                } else {
+                    totalNetIncomeEl.style.color = 'var(--danger)';
+                }
+            }
+            
+            // Save to localStorage for persistence
+            localStorage.setItem('gridExportTotal', this.state.gridExportTotal.toString());
+            localStorage.setItem('gridExportIncome', this.state.gridExportIncome.toString());
+            
+        } catch (err) {
+            console.error('Error updating cumulative export metrics:', err);
+        }
+    }
+
+    // <new section grid import line>
+    updateGridImportDisplay() {
+        try {
+            // Get grid import amount from slider (for display only)
+            const gridImportAmount = this.state.gridImportAmount || 0;
+            
+            // Update Grid Import Card
+            document.getElementById('gridImportVal').textContent = gridImportAmount.toFixed(2);
+            document.getElementById('gridImportBar').style.width = `${(gridImportAmount / 500) * 100}%`;
+            
+            // Calculate Total Energy After Import (Total Generation + Grid Import)
+            const totalGen = this.state.totalGeneration || (this.state.solar + this.state.wind);
+            const totalEnergyAfterImport = totalGen + gridImportAmount;
+            document.getElementById('totalEnergyAfterImportVal').textContent = totalEnergyAfterImport.toFixed(2);
+            document.getElementById('totalEnergyAfterImportBar').style.width = `${(totalEnergyAfterImport / 1000) * 100}%`;
+            
+        } catch (err) {
+            console.error('Error updating grid import display:', err);
+        }
+    }
+
+    updateGridImportCosts() {
+        try {
+            // Calculate Grid Import Cost based on ACTUAL grid import from deficit logic
+            // PLUS grid import for battery charging - this makes it independent of the 3rd card slider
+            const actualGridImport = this.state.gridImport || 0; // From deficit handling
+            const gridImportForBattery = this.state.gridImportAmount || 0; // From slider for battery
+            const totalGridUsage = actualGridImport + gridImportForBattery;
+            const costPerHour = totalGridUsage * 5.4; // Cost based on total grid usage
+            document.getElementById('gridImportCostPerHour').textContent = `₹${costPerHour.toFixed(2)}`;
+            
+            // Accumulate Total Cost based on actual grid import only (only during tick intervals)
+            if (!this.state.gridImportCostTotal) {
+                // Load from localStorage on first run
+                const savedCost = localStorage.getItem('gridImportCostTotal');
+                this.state.gridImportCostTotal = savedCost ? parseFloat(savedCost) : 0;
+            }
+            
+            // Add current hour's cost to total (based on actual grid import)
+            this.state.gridImportCostTotal += costPerHour;
+            
+            // Save to localStorage for persistence
+            localStorage.setItem('gridImportCostTotal', this.state.gridImportCostTotal.toString());
+            
+            // Display Total Cost
+            document.getElementById('gridImportCostTotal').textContent = `₹${this.state.gridImportCostTotal.toFixed(2)}`;
+            
+        } catch (err) {
+            console.error('Error updating grid import costs:', err);
+        }
+    }
+
+    updateGridImportMetrics() {
+        // Call both display and cost updates (for backward compatibility)
+        this.updateGridImportDisplay();
+        this.updateGridImportCosts();
+    }
+    // </new section grid import line>
 
     updateAIRecommendations() {
         const recommendations = document.getElementById('ai-recommendations');
@@ -630,6 +775,151 @@ class EnergyManagementSystem {
                 </div>`;
             }
             
+            // Financial Strategic Recommendations (Rules 8-18)
+            
+            // Rule 8: Grid Rate Optimization Alert
+            const gridRate = parseFloat(document.getElementById('gridRate')?.value || 6.0);
+            if (gridRate < 5.0 && this.state.gridExportNow > 50) {
+                html += `<div class="alert alert-warning">
+                    <i class="fas fa-rupee-sign"></i>
+                    <div>
+                        <strong>Low Grid Rate Alert:</strong>
+                        <span>Current grid rate (₹${gridRate.toFixed(1)}/kWh) is below optimal threshold. 
+                        Exporting ${this.state.gridExportNow.toFixed(1)} kW at low rates. Consider storing energy for higher-rate periods or direct sales.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 9: High Import Cost Alert
+            const gridImportCostPerHour = parseFloat(document.getElementById('gridImportCostPerHour')?.textContent?.replace('₹', '') || 0);
+            if (gridImportCostPerHour > 100 && this.state.battery > this.state.reserve + 10) {
+                html += `<div class="alert alert-danger">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <div>
+                        <strong>High Import Cost Alert:</strong>
+                        <span>Grid import costing ₹${gridImportCostPerHour.toFixed(0)}/hr. Battery has capacity (${Math.round(this.state.battery)}%) - 
+                        consider discharging battery instead of expensive grid imports.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 10: Revenue Opportunity Maximization
+            if (this.state.gridExportTotal > 0 && this.state.battery >= 95 && nextGen > currentGen + 30) {
+                html += `<div class="alert alert-success">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <strong>Revenue Opportunity:</strong>
+                        <span>Cumulative export: ${this.state.gridExportTotal.toFixed(1)} kW. Next hour generation increasing by ${(nextGen - currentGen).toFixed(1)} kW. 
+                        Perfect conditions for maximizing export revenue at ₹${gridRate.toFixed(1)}/kWh.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 11: Net Income Target Analysis
+            const totalNetIncome = parseFloat(document.getElementById('totalNetIncome')?.textContent?.replace('₹', '') || 0);
+            const gridExportIncome = parseFloat(document.getElementById('gridExportIncome')?.textContent?.replace('₹', '') || 0);
+            if (totalNetIncome < 0 && gridExportIncome < 50) {
+                html += `<div class="alert alert-warning">
+                    <i class="fas fa-target"></i>
+                    <div>
+                        <strong>Net Income Deficit:</strong>
+                        <span>Net income: ₹${totalNetIncome.toFixed(0)} (negative). Low export income: ₹${gridExportIncome.toFixed(0)}. 
+                        Focus on increasing export generation or reducing import dependency to achieve profitability.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 12: Break-even Analysis Alert
+            const gridImportCostTotal = parseFloat(document.getElementById('gridImportCostTotal')?.textContent?.replace('₹', '') || 0);
+            if (gridImportCostTotal > 0 && gridExportIncome > 0) {
+                const breakEvenRatio = (gridExportIncome / gridImportCostTotal) * 100;
+                if (breakEvenRatio < 80) {
+                    html += `<div class="alert alert-info" style="background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.3);">
+                        <i class="fas fa-balance-scale"></i>
+                        <div>
+                            <strong>Break-even Analysis:</strong>
+                            <span>Export income covers ${breakEvenRatio.toFixed(0)}% of import costs. 
+                            Need ₹${(gridImportCostTotal - gridExportIncome).toFixed(0)} more export revenue to break even.</span>
+                        </div>
+                    </div>`;
+                }
+            }
+            
+            // Rule 13: Export Efficiency Optimization
+            if (this.state.gridExportNow > 0 && this.state.battery < 100) {
+                html += `<div class="alert alert-info" style="background: rgba(147, 51, 234, 0.1); border-color: rgba(147, 51, 234, 0.3);">
+                    <i class="fas fa-cogs"></i>
+                    <div>
+                        <strong>Export Efficiency:</strong>
+                        <span>Exporting ${this.state.gridExportNow.toFixed(1)} kW while battery at ${Math.round(this.state.battery)}%. 
+                        Consider prioritizing battery charging first to ensure sustained export capability.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 14: Cost Savings Tracking
+            const costSavingsTotal = parseFloat(document.getElementById('costSavingsTotal')?.textContent?.replace('₹', '') || 0);
+            if (costSavingsTotal > 500) {
+                html += `<div class="alert alert-success">
+                    <i class="fas fa-piggy-bank"></i>
+                    <div>
+                        <strong>Excellent Cost Savings:</strong>
+                        <span>Total savings: ₹${costSavingsTotal.toFixed(0)}! Your renewable energy system is delivering strong financial benefits. 
+                        Next hour generation: ${nextGen.toFixed(1)} kW continues the trend.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 15: ROI Performance Indicator
+            if (this.state.gridExportTotal > 1000 && gridExportIncome > 1000) {
+                const exportEfficiency = (gridExportIncome / this.state.gridExportTotal) * 100;
+                html += `<div class="alert alert-info" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.3);">
+                    <i class="fas fa-chart-pie"></i>
+                    <div>
+                        <strong>ROI Performance:</strong>
+                        <span>Strong export performance: ${this.state.gridExportTotal.toFixed(0)} kW total generating ₹${gridExportIncome.toFixed(0)}. 
+                        Efficiency: ₹${(gridExportIncome/this.state.gridExportTotal).toFixed(2)}/kW. System ROI is tracking well.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 16: Peak Rate Avoidance Strategy
+            if ((currentHour >= 18 && currentHour <= 22) && this.state.gridImportNow > 100) {
+                html += `<div class="alert alert-danger">
+                    <i class="fas fa-clock"></i>
+                    <div>
+                        <strong>Peak Rate Period:</strong>
+                        <span>Peak demand hours (6-10 PM). Currently importing ${this.state.gridImportNow.toFixed(1)} kW at premium rates. 
+                        Use battery power (${Math.round(this.state.battery)}%) or reduce load to avoid peak charges.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 17: Demand-Supply Balance Optimization
+            const supplyDemandRatio = (currentGen + this.state.gridImportNow) / this.state.load;
+            if (supplyDemandRatio > 1.5 && this.state.battery < 80) {
+                html += `<div class="alert alert-info" style="background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3);">
+                    <i class="fas fa-chart-bar"></i>
+                    <div>
+                        <strong>Supply-Demand Optimization:</strong>
+                        <span>Excess supply available (${(supplyDemandRatio * 100).toFixed(0)}% of demand). 
+                        Battery at ${Math.round(this.state.battery)}% - optimal time to store excess energy for later use or higher-rate export periods.</span>
+                    </div>
+                </div>`;
+            }
+            
+            // Rule 18: Financial Sustainability Check
+            if (totalNetIncome > 200 && this.state.gridExportTotal > 500) {
+                html += `<div class="alert alert-success">
+                    <i class="fas fa-leaf"></i>
+                    <div>
+                        <strong>Financial Sustainability:</strong>
+                        <span>Positive net income: ₹${totalNetIncome.toFixed(0)}. Export performance: ${this.state.gridExportTotal.toFixed(0)} kW total. 
+                        Your renewable energy system is financially sustainable and environmentally beneficial!</span>
+                    </div>
+                </div>`;
+            }
+            
         } else {
             // No next-hour data available
             html = `<div class="alert alert-info" style="background: rgba(148, 163, 184, 0.1); border-color: rgba(148, 163, 184, 0.3);">
@@ -662,13 +952,6 @@ class EnergyManagementSystem {
         document.getElementById('batteryPrioritySlider').addEventListener('input', (e) => {
             this.state.batteryPriority = parseInt(e.target.value);
             document.getElementById('batteryPriorityValue').textContent = `${this.state.batteryPriority}%`;
-            this.saveSettings();
-        });
-
-        // Load slider
-        document.getElementById('loadSlider').addEventListener('input', (e) => {
-            this.state.load = parseFloat(e.target.value);
-            document.getElementById('loadValue').textContent = `${this.state.load.toFixed(1)} kW`;
             this.saveSettings();
         });
 
@@ -712,8 +995,7 @@ class EnergyManagementSystem {
             }
             if (settings.load !== undefined) {
                 this.state.load = settings.load;
-                document.getElementById('loadSlider').value = settings.load;
-                document.getElementById('loadValue').textContent = `${settings.load.toFixed(1)} kW`;
+                // Load is now controlled by consumption slider only
             }
             if (settings.exportDemand !== undefined) {
                 this.state.exportDemand = settings.exportDemand;
@@ -882,15 +1164,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const consumptionKW = consumptionWh / 1000; // Convert Wh to kW
             ems.state.load = consumptionKW;
             
-            // Update Site Load slider if it exists
-            const loadSlider = document.getElementById('loadSlider');
-            const loadValue = document.getElementById('loadValue');
-            if (loadSlider && loadValue) {
-                loadSlider.value = consumptionKW;
-                loadValue.textContent = `${consumptionKW.toFixed(1)} kW`;
-            }
-            
-            console.log(`[LOAD SYNC] Consumption slider: ${consumptionWh} Wh → Site Load: ${consumptionKW.toFixed(2)} kW`);
+            console.log(`[LOAD] Consumption slider: ${consumptionWh} Wh → Load: ${consumptionKW.toFixed(2)} kW`);
         });
     }
 
@@ -912,10 +1186,28 @@ document.addEventListener('DOMContentLoaded', () => {
     ems.generateHistoricalData();
     ems.updateCharts();
 
-    // Initialize current date/time display
+    // Initialize current date/time display to real-time
     const now = new Date();
     document.getElementById('currentDate').textContent = now.toLocaleDateString();
     document.getElementById('currentTime').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+    
+    // Initialize simulation time to current real-time
+    currentSimDate = new Date();
+    currentTimeDisplay.textContent = `${currentSimDate.toLocaleDateString()}, ${String(currentSimDate.getHours()).padStart(2, '0')}:${String(currentSimDate.getMinutes()).padStart(2, '0')}`;
+    
+    // Update date/time displays every minute for real-time sync when not simulating
+    setInterval(() => {
+        if (!simulationInterval) {
+            // Only update if simulation is not running
+            const realTimeNow = new Date();
+            document.getElementById('currentDate').textContent = realTimeNow.toLocaleDateString();
+            document.getElementById('currentTime').textContent = realTimeNow.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+            
+            // Update simulation time to match real-time when idle
+            currentSimDate = new Date(realTimeNow);
+            currentTimeDisplay.textContent = `${currentSimDate.toLocaleDateString()}, ${String(currentSimDate.getHours()).padStart(2, '0')}:${String(currentSimDate.getMinutes()).padStart(2, '0')}`;
+        }
+    }, 60000); // Update every minute
 
     // Settings modal
     document.getElementById('settingsBtn').addEventListener('click', () => {
@@ -1064,10 +1356,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Reset button
     document.getElementById('resetBtn').addEventListener('click', () => {
-        // Reset Site Load
-        document.getElementById('loadSlider').value = 6;
-        document.getElementById('loadValue').textContent = '6.0 kW';
-        ems.state.load = 6.0;
+        // Reset Load via Consumption slider
+        if (controls.consumption && controls.consumption.input) {
+            controls.consumption.input.value = 250;
+            controls.consumption.display.textContent = '250';
+        }
+        ems.state.load = 0.25; // 250 Wh = 0.25 kW
         
         // Reset Battery Priority
         document.getElementById('batteryPrioritySlider').value = 50;
@@ -1084,11 +1378,6 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('exportDemandValue').textContent = '0 kW';
         ems.state.exportDemand = 0;
         
-        // Sync consumption slider with Site Load
-        if (controls.consumption && controls.consumption.input) {
-            controls.consumption.input.value = 6000; // 6 kW = 6000 Wh
-            controls.consumption.value.textContent = '6000';
-        }
         ems.saveSettings();
         ems.showAlert('Settings reset to defaults', 'info');
     });
@@ -1113,7 +1402,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = new Date();
         document.getElementById('currentDate').textContent = now.toLocaleDateString();
         document.getElementById('currentTime').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
-        ems.showAlert('Environmental data refreshed', 'success');
+        
+        // Also sync simulation time if not running
+        if (!simulationInterval) {
+            currentSimDate = new Date(now);
+            currentTimeDisplay.textContent = `${currentSimDate.toLocaleDateString()}, ${String(currentSimDate.getHours()).padStart(2, '0')}:${String(currentSimDate.getMinutes()).padStart(2, '0')}`;
+        }
+        
+        ems.showAlert('Environmental data and time synced to current real-time', 'success');
     });
 
     // Export Earnings Controls (removed exportShareSlider - now automatic based on battery)
@@ -1124,6 +1420,8 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gridRateInput) {
         gridRateInput.addEventListener('input', () => {
             ems.updateExportEarnings();
+            // Note: We don't call updateCumulativeExportMetrics here because 
+            // cumulative income should only be calculated during ticks, not when rate changes
         });
     }
 
@@ -1136,6 +1434,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize export earnings on page load
     ems.updateExportEarnings();
+    ems.updateCumulativeExportMetrics();
+
+    // <new section grid import line>
+    // Grid Import Slider Control
+    const gridImportSlider = document.getElementById('gridImportSlider');
+    const gridImportSliderValue = document.getElementById('gridImportSliderValue');
+    
+    if (gridImportSlider) {
+        gridImportSlider.addEventListener('input', (e) => {
+            const value = parseFloat(e.target.value);
+            ems.state.gridImportAmount = value;
+            gridImportSliderValue.textContent = value.toFixed(2);
+            
+            // Update slider background (visual progress)
+            const percentage = (value / 500) * 100;
+            e.target.style.background = `linear-gradient(to right, #8b5cf6 0%, #8b5cf6 ${percentage}%, rgba(148, 163, 184, 0.2) ${percentage}%)`;
+            
+            // Only update display elements, NOT costs (costs should only update with tick intervals)
+            ems.updateGridImportDisplay();
+        });
+    }
+    
+    // Initialize grid import display on page load (costs will be calculated during first tick)
+    ems.updateGridImportDisplay();
+    // </new section grid import line>
 
     // CSV Upload
     uploadForm.addEventListener('submit', async (e) => {
@@ -1168,10 +1491,8 @@ document.addEventListener('DOMContentLoaded', () => {
             logMessage('CSV uploaded successfully!');
             ems.showAlert(`Data loaded successfully! ${result.rows} rows loaded. AI models initialized.`, 'success');
             
-            // Initialize simulation date
-            const { last_date, last_time } = result;
-            currentSimDate = new Date(last_date);
-            currentSimDate.setHours(last_time);
+            // Initialize simulation date to current real-time (not from CSV)
+            currentSimDate = new Date();
             
             // Hide upload section
             uploadSection.classList.add('hidden');
@@ -1181,10 +1502,10 @@ document.addEventListener('DOMContentLoaded', () => {
             startBtn.disabled = false;
             
             updateTimeDisplay();
-            logMessage('Ready to start simulation');
+            logMessage('Ready to start simulation from current time');
             
-            // Update current date/time display
-            const now = currentSimDate;
+            // Update current date/time display to current real-time
+            const now = new Date();
             document.getElementById('currentDate').textContent = now.toLocaleDateString();
             document.getElementById('currentTime').textContent = now.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 
@@ -1200,7 +1521,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (simulationInterval) return;
         
         logMessage('Starting live AI simulation...');
-        ems.showAlert('Live simulation started - AI predictions updating every 5 seconds', 'success');
+        ems.showAlert('Live simulation started - AI predictions updating every 3 seconds', 'success');
         
         startBtn.disabled = true;
         stopBtn.disabled = false;
@@ -1209,7 +1530,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('systemStatus').textContent = 'Simulation Running';
         
         runTick();
-        simulationInterval = setInterval(runTick, 5000);
+        simulationInterval = setInterval(runTick, 3000);
     });
 
     // Stop Simulation

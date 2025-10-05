@@ -1,5 +1,6 @@
 import os
 import io
+import random
 import numpy as np
 import pandas as pd
 import joblib
@@ -228,6 +229,8 @@ def api_predict():
             # clamp to sensible max
             pred_wind = float(np.round(np.clip(pred_wind, 0, 160),2))
             result['wind_gen'] = pred_wind
+            if float(latest['wind_speed']) < 5.0:
+                result['wind_gen'] = random.randint(0,5)
         except Exception as e:
             result['wind_error'] = str(e)
 
@@ -268,6 +271,4 @@ def predict_form():
     return render_template('index.html', prediction_text='Legacy predict: use /api/predict for JSON')
 
 if __name__ == '__main__':
-    import os
-    port = os.environ.get('PORT', 5000)
-    app.run(host='0.0.0.0', port=port)
+    app.run(debug=True)

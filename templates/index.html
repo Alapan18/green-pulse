@@ -655,12 +655,12 @@
                         </span>
                     </div>
                     <div class="mb-3">
-                        <div class="text-2xl font-bold" style="color: var(--text-primary)" id="batteryVal">55%</div>
+                        <div class="text-2xl font-bold" style="color: var(--text-primary)" id="batteryVal">40%</div>
                         <div class="text-sm" style="color: var(--text-secondary)">Charge</div>
                     </div>
                     <div class="progress-bar">
                         <div class="progress-fill bg-gradient-to-r from-green-400 to-emerald-500" id="batteryBar"
-                            style="width: 55%"></div>
+                            style="width: 40%"></div>
                     </div>
                     <div class="mt-2 text-xs" style="color: var(--text-secondary)">
                         <span>Reserve: <span id="reserveDisplay">20%</span></span>
@@ -721,6 +721,129 @@
             </div>
         </section>
 
+        <!-- <new section grid import line> -->
+        <!-- Grid Import Section -->
+        <section class="fade-in">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 grid-import-section">
+                <!-- Card 1: Grid Import (2 columns) -->
+                <div class="lg:col-span-2">
+                    <div class="metric-card">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-arrow-down text-purple-600"></i>
+                                </div>
+                                <span class="font-medium" style="color: var(--text-primary)">Grid Import</span>
+                            </div>
+                            <span class="tooltip text-xs" style="color: var(--text-secondary)"
+                                data-tooltip="Power imported from grid">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-2xl font-bold" style="color: var(--text-primary)" id="gridImportVal">0.00
+                            </div>
+                            <div class="text-sm" style="color: var(--text-secondary)">kW</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-purple-400 to-pink-500" id="gridImportBar"
+                                style="width: 0%"></div>
+                        </div>
+                        <div class="mt-4 text-xs" style="color: var(--text-secondary)">
+                            <span>Max: 500 kW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Total Energy After Import (3 columns) -->
+                <div class="lg:col-span-3">
+                    <div class="metric-card">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-cyan-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-bolt text-cyan-600"></i>
+                                </div>
+                                <span class="font-medium" style="color: var(--text-primary)">Total energy +
+                                    Import</span>
+                            </div>
+                            <span class="tooltip text-xs text-gray-500"
+                                data-tooltip="Total generation plus grid import">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-2xl font-bold" style="color: var(--text-primary)"
+                                id="totalEnergyAfterImportVal">0.00</div>
+                            <div class="text-sm" style="color: var(--text-secondary)">kW</div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill bg-gradient-to-r from-cyan-400 to-blue-500"
+                                id="totalEnergyAfterImportBar" style="width: 0%"></div>
+                        </div>
+                        <div class="mt-4 text-xs" style="color: var(--text-secondary)">
+                            <span>Max: 1000 kW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3: Grid Import Slider Control (5 columns) -->
+                <div class="lg:col-span-5">
+                    <div class="metric-card">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-purple-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-sliders-h text-purple-600"></i>
+                                </div>
+                                <span class="font-medium" style="color: var(--text-primary)">Set Import Amount</span>
+                            </div>
+                            <span class="tooltip text-xs text-gray-500" data-tooltip="Adjust grid import amount">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-2xl font-bold" style="color: var(--text-primary)"
+                                id="gridImportSliderValue">0.00</div>
+                            <div class="text-sm" style="color: var(--text-secondary)">kW</div>
+                        </div>
+                        <div class="mb-2">
+                            <input type="range" id="gridImportSlider" min="0" max="500" step="0.1" value="0"
+                                class="range-slider w-full"
+                                style="height: 8px; background: linear-gradient(to right, #8b5cf6 0%, #8b5cf6 0%, rgba(148, 163, 184, 0.2) 0%)">
+                        </div>
+                        <div class="mt-2 text-xs" style="color: var(--text-secondary)">
+                            <span>Range: 0 - 500 kW</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4: Import Cost Metrics (2 columns) -->
+                <div class="lg:col-span-2">
+                    <div class="metric-card">
+                        <div class="flex items-center justify-between mb-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 bg-red-100 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-rupee-sign text-red-600"></i>
+                                </div>
+                                <span class="font-medium" style="color: var(--text-primary)">Import Cost</span>
+                            </div>
+                            <span class="tooltip text-xs text-gray-500" data-tooltip="Grid import costs">
+                                <i class="fas fa-info-circle"></i>
+                            </span>
+                        </div>
+                        <div class="mb-3">
+                            <div class="text-sm font-medium" style="color: var(--text-secondary)">Cost/hr</div>
+                            <div class="text-xl font-bold" style="color: #dc2626" id="gridImportCostPerHour">₹0.00</div>
+                        </div>
+                        <div class="border-t pt-2 mt-2" style="border-color: var(--border)">
+                            <div class="text-sm font-medium" style="color: var(--text-secondary)">Total Cost</div>
+                            <div class="text-xl font-bold" style="color: #dc2626" id="gridImportCostTotal">₹0.00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- </new section grid import line> -->
+
         <!-- Main Dashboard Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <!-- System Controls -->
@@ -735,16 +858,6 @@
                     </div>
                 </div>
                 <div class="space-y-6">
-                    <!-- Load Management -->
-                    <div class="input-group">
-                        <label class="input-label">Site Load Demand</label>
-                        <div class="flex items-center gap-3">
-                            <input type="range" id="loadSlider" class="range-slider flex-1" min="1" max="500" value="6"
-                                step="0.1">
-                            <span class="text-sm font-semibold min-w-[60px]" style="color: var(--text-primary)"
-                                id="loadValue">6.0 kW</span>
-                        </div>
-                    </div>
                     <!-- Battery Priority -->
                     <div class="input-group">
                         <label class="input-label">Battery Priority</label>
@@ -1114,6 +1227,32 @@
                             <div class="text-xl font-bold text-orange-600" id="monthlyEarnings">₹0.00</div>
                         </div>
                     </div>
+
+                    <!-- Cumulative Export Metrics -->
+                    <div class="mt-6">
+                        <h4 class="font-semibold mb-3" style="color: var(--text-primary)">Cumulative Export Metrics</h4>
+                        <div class="grid grid-cols-1 gap-3">
+                            <div class="rounded-lg p-3"
+                                style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.2);">
+                                <div class="text-sm" style="color: var(--text-secondary)">Grid Export Total</div>
+                                <div class="text-xl font-bold text-emerald-600" id="gridExportTotal">0.00 kW</div>
+                                <div class="text-xs mt-1" style="color: var(--text-secondary)">Cumulative export values</div>
+                            </div>
+                            <div class="rounded-lg p-3"
+                                style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2);">
+                                <div class="text-sm" style="color: var(--text-secondary)">Grid Export Income</div>
+                                <div class="text-xl font-bold text-green-600" id="gridExportIncome">₹0.00</div>
+                                <div class="text-xs mt-1" style="color: var(--text-secondary)">Total Income earned</div>
+                            </div>
+                            <div class="rounded-lg p-3"
+                                style="background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);">
+                                <div class="text-sm" style="color: var(--text-secondary)">Total Net Income</div>
+                                <div class="text-xl font-bold text-blue-600" id="totalNetIncome">₹0.00</div>
+                                <div class="text-xs mt-1" style="color: var(--text-secondary)">Export Income - Import
+                                    Cost</div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <!-- Export Controls -->
                 <div class="space-y-4">
@@ -1124,7 +1263,7 @@
                     </div>
                     <div class="input-group">
                         <label class="input-label">Grid Rate (₹/kWh)</label>
-                        <input type="number" id="gridRate" class="input-field" value="3.0" step="0.1" min="0"
+                        <input type="number" id="gridRate" class="input-field" value="6.0" step="0.1" min="0"
                             max="1000">
                         <p class="text-xs mt-1" style="color: var(--text-secondary)">Current grid buyback rate</p>
                     </div>
@@ -1144,7 +1283,7 @@
                             style="background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.2);">
                             <div class="flex items-center justify-between">
                                 <span class="text-sm" style="color: var(--text-secondary)">Current Charge</span>
-                                <span class="text-lg font-bold text-green-600" id="exportBatteryStatus">55%</span>
+                                <span class="text-lg font-bold text-green-600" id="exportBatteryStatus">40%</span>
                             </div>
                             <div class="text-xs mt-1" style="color: var(--text-secondary)" id="exportStatusMessage">
                                 Export will stop at reserve level</div>
