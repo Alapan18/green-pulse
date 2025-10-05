@@ -630,59 +630,64 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 <html>
 <table align="center" border="0" cellpadding="0" cellspacing="0">
   <tr>
+    <!-- Alapan -->
     <td align="center" valign="top" width="30%" style="padding: 20px;">
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-        <a href="https://www.linkedin.com/in/mr-alapan-pradhan" target="_blank">
-          <img src="https://media.licdn.com/dms/image/v2/D5603AQGZZmWm7pqHPg/profile-displayphoto-crop_800_800/B56ZkpDF8eG0AI-/0/1757330302731?e=1762387200&v=beta&t=xB456Mtu1X-jG0_k_Wk8uAv0absfTRJzI2bwMJKnQ3I" alt="Alapan Pradhan" width="120" height="120" style="border-radius: 50%; border: 4px solid #003cffff; box-shadow: 0 5px 15px rgba(0,60,255,0.4);"/>
+      <div style="background-color:#667eea; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <a href="https://www.linkedin.com/in/mr-alapan-pradhan">
+          <img src="https://media.licdn.com/dms/image/v2/D5603AQGZZmWm7pqHPg/profile-displayphoto-crop_800_800/B56ZkpDF8eG0AI-/0/1757330302731?e=1762387200&v=beta&t=xB456Mtu1X-jG0_k_Wk8uAv0absfTRJzI2bwMJKnQ3I" 
+               alt="Alapan Pradhan" width="120" height="120" 
+               style="border-radius:50%; border:4px solid #003cff; box-shadow:0 5px 10px rgba(0,60,255,0.4);"/>
         </a>
         <br/><br/>
-        <h3 style="color: #ffffff; margin: 10px 0;">Alapan Pradhan</h3>
-        <p style="color: #e0e0e0; font-size: 14px;">Full Stack Developer</p>
+        <h3 style="color:#ffffff; margin:10px 0;">Alapan Pradhan</h3>
         <br/>
-        <a href="https://github.com/Alapan18" target="_blank">
+        <a href="https://github.com/Alapan18">
           <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
         </a>
-        <a href="https://www.linkedin.com/in/mr-alapan-pradhan" target="_blank">
+        <a href="https://www.linkedin.com/in/mr-alapan-pradhan">
           <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
         </a>
       </div>
     </td>
     <td align="center" valign="top" width="30%" style="padding: 20px;">
-      <div style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-        <a href="https://www.linkedin.com/in/samirroydev/" target="_blank">
-          <img src="https://media.licdn.com/dms/image/v2/D4D03AQHwUpZ1zOJ0-w/profile-displayphoto-crop_800_800/B4DZhkCKaXGQAM-/0/1754024947061?e=1762387200&v=beta&t=lzKhEu3k948xlVIqK8QuFvNlkvMBYiw_q2vtEalkqeA" alt="Samir Roy" width="120" height="120" style="border-radius: 50%; border: 4px solid #ffe600ff; box-shadow: 0 5px 15px rgba(255,230,0,0.4);"/>
+      <div style="background-color:#f5576c; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <a href="https://www.linkedin.com/in/samirroydev/">
+          <img src="https://media.licdn.com/dms/image/v2/D4D03AQHwUpZ1zOJ0-w/profile-displayphoto-crop_800_800/B4DZhkCKaXGQAM-/0/1754024947061?e=1762387200&v=beta&t=lzKhEu3k948xlVIqK8QuFvNlkvMBYiw_q2vtEalkqeA" 
+               alt="Samir Roy" width="120" height="120" 
+               style="border-radius:50%; border:4px solid #ffe600; box-shadow:0 5px 10px rgba(255,230,0,0.4);"/>
         </a>
         <br/><br/>
-        <h3 style="color: #ffffff; margin: 10px 0;">Samir Roy</h3>
-        <p style="color: #e0e0e0; font-size: 14px;">ML/AI Engineer</p>
+        <h3 style="color:#ffffff; margin:10px 0;">Samir Roy</h3>
         <br/>
-        <a href="https://github.com/SamirRoy929" target="_blank">
+        <a href="https://github.com/SamirRoy929">
           <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
         </a>
-        <a href="https://www.linkedin.com/in/samirroydev/" target="_blank">
+        <a href="https://www.linkedin.com/in/samirroydev/">
           <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
         </a>
       </div>
     </td>
     <td align="center" valign="top" width="30%" style="padding: 20px;">
-      <div style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); padding: 25px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2);">
-        <a href="http://www.linkedin.com/in/diganta-das-955730315/" target="_blank">
-          <img src="https://media.licdn.com/dms/image/v2/D4E03AQFs0-WkidMIXg/profile-displayphoto-crop_800_800/B4EZe7.pZ5G4AQ-/0/1751205454018?e=1762387200&v=beta&t=n3Wv44QqM-9NKQP6MG3VjE7ufYSmdPL_5BdIV8BBCXI" alt="Diganta Das" width="120" height="120" style="border-radius: 50%; border: 4px solid #ff0000ff; box-shadow: 0 5px 15px rgba(255,0,0,0.4);"/>
+      <div style="background-color:#00aaff; padding: 25px; border-radius: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+        <a href="http://www.linkedin.com/in/diganta-das-955730315/">
+          <img src="https://media.licdn.com/dms/image/v2/D4E03AQFs0-WkidMIXg/profile-displayphoto-crop_800_800/B4EZe7.pZ5G4AQ-/0/1751205454018?e=1762387200&v=beta&t=n3Wv44QqM-9NKQP6MG3VjE7ufYSmdPL_5BdIV8BBCXI" 
+               alt="Diganta Das" width="120" height="120" 
+               style="border-radius:50%; border:4px solid #ff0000; box-shadow:0 5px 10px rgba(255,0,0,0.4);"/>
         </a>
         <br/><br/>
-        <h3 style="color: #ffffff; margin: 10px 0;">Diganta Das</h3>
-        <p style="color: #e0e0e0; font-size: 14px;">Backend Developer</p>
+        <h3 style="color:#ffffff; margin:10px 0;">Diganta Das</h3>
         <br/>
-        <a href="https://github.com/YOUR_GITHUB_USERNAME_HERE" target="_blank">
+        <a href="https://github.com/YOUR_GITHUB_USERNAME_HERE">
           <img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub"/>
         </a>
-        <a href="http://www.linkedin.com/in/diganta-das-955730315/" target="_blank">
+        <a href="http://www.linkedin.com/in/diganta-das-955730315/">
           <img src="https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn"/>
         </a>
       </div>
     </td>
   </tr>
 </table>
+
 </html>
 <br/>
 
